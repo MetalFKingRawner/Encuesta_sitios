@@ -1,0 +1,941 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>¿A dónde salimos? — Encuesta</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --bg: #0C0C0B;
+  --surface: #141413;
+  --surface2: #1C1C1B;
+  --border: rgba(255,255,255,0.07);
+  --border-h: rgba(255,255,255,0.15);
+  --text: #EDE8DF;
+  --muted: #6B6860;
+  --accent: #E8D5A3;
+  --accent-dim: rgba(232,213,163,0.1);
+  --accent-glow: rgba(232,213,163,0.05);
+  --green: #6FCF97;
+  --r: 14px;
+  --rs: 9px;
+  --max: 680px;
+}
+
+body {
+  font-family: 'Outfit', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+body::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(255,255,255,0.016) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,0.016) 1px, transparent 1px);
+  background-size: 64px 64px;
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* ─── HERO ─── */
+#hero { position: relative; z-index: 1; }
+
+.hero {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 80px 32px;
+  max-width: var(--max);
+  margin: 0 auto;
+}
+
+.hero-eyebrow {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 40px;
+}
+
+.eyebrow-line { width: 28px; height: 1px; background: var(--accent); opacity: 0.5; }
+.eyebrow-text {
+  font-size: 11px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--accent);
+  opacity: 0.65;
+  font-weight: 500;
+}
+
+.hero h1 {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(56px, 11vw, 100px);
+  font-weight: 900;
+  line-height: 0.93;
+  margin-bottom: 32px;
+  letter-spacing: -0.02em;
+}
+
+.hero h1 em { font-style: italic; color: var(--accent); }
+
+.hero-rule { width: 40px; height: 2px; background: var(--accent); margin-bottom: 28px; opacity: 0.4; }
+
+.hero-sub {
+  font-size: 17px;
+  color: var(--muted);
+  line-height: 1.7;
+  max-width: 420px;
+  margin-bottom: 44px;
+  font-weight: 300;
+}
+
+.hero-pills {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-bottom: 48px;
+}
+
+.pill {
+  padding: 5px 14px;
+  border-radius: 100px;
+  border: 1px solid var(--border);
+  font-size: 12px;
+  color: var(--muted);
+  letter-spacing: 0.04em;
+}
+
+.btn-start {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-family: 'Outfit', sans-serif;
+  font-weight: 600;
+  font-size: 13px;
+  padding: 15px 34px;
+  border-radius: var(--rs);
+  border: 1px solid rgba(232,213,163,0.5);
+  background: transparent;
+  color: var(--accent);
+  cursor: pointer;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  transition: all 0.25s;
+}
+
+.btn-start:hover {
+  background: var(--accent-dim);
+  border-color: var(--accent);
+  letter-spacing: 0.13em;
+}
+
+.btn-arrow { transition: transform 0.25s; }
+.btn-start:hover .btn-arrow { transform: translateX(5px); }
+
+.hero-stat {
+  margin-top: 60px;
+  padding-top: 28px;
+  border-top: 1px solid var(--border);
+  display: flex;
+  gap: 36px;
+}
+
+.stat-num {
+  font-family: 'Playfair Display', serif;
+  font-size: 28px;
+  font-weight: 700;
+  color: var(--text);
+  line-height: 1;
+}
+.stat-label { font-size: 12px; color: var(--muted); margin-top: 5px; letter-spacing: 0.04em; }
+
+/* ─── PROGRESS ─── */
+.progress-bar-wrap {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  height: 2px;
+  background: rgba(255,255,255,0.04);
+  z-index: 100;
+}
+.progress-bar-fill {
+  height: 100%;
+  background: var(--accent);
+  transition: width 0.5s cubic-bezier(0.4,0,0.2,1);
+}
+
+.nav-top {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  height: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 24px;
+  z-index: 99;
+  border-bottom: 1px solid var(--border);
+  background: rgba(12,12,11,0.88);
+  backdrop-filter: blur(14px);
+}
+
+.nav-brand {
+  font-family: 'Playfair Display', serif;
+  font-size: 14px;
+  font-style: italic;
+  color: var(--accent);
+  opacity: 0.75;
+}
+
+.nav-progress-text { font-size: 12px; color: var(--muted); letter-spacing: 0.06em; }
+
+/* ─── SURVEY ─── */
+#survey { display: none; position: relative; z-index: 1; }
+
+.section-screen {
+  display: none;
+  min-height: 100vh;
+  padding: 80px 32px 80px;
+  max-width: var(--max);
+  margin: 0 auto;
+  flex-direction: column;
+  justify-content: center;
+}
+.section-screen.active { display: flex; }
+
+.section-eyebrow {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 22px;
+}
+
+.section-num { font-size: 11px; color: var(--accent); opacity: 0.55; letter-spacing: 0.15em; text-transform: uppercase; font-weight: 500; }
+.section-dot { width: 3px; height: 3px; border-radius: 50%; background: var(--muted); opacity: 0.5; }
+.section-name { font-size: 11px; color: var(--muted); letter-spacing: 0.12em; text-transform: uppercase; }
+
+.section-title {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(34px, 6vw, 54px);
+  font-weight: 900;
+  line-height: 1.04;
+  margin-bottom: 12px;
+  letter-spacing: -0.01em;
+}
+.section-title em { font-style: italic; color: var(--accent); }
+
+.section-desc {
+  font-size: 15px;
+  color: var(--muted);
+  margin-bottom: 48px;
+  font-weight: 300;
+  line-height: 1.65;
+  border-left: 2px solid var(--border);
+  padding-left: 16px;
+}
+
+/* ─── QUESTION BLOCK ─── */
+.question-block { margin-bottom: 38px; }
+
+.question-header {
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+  margin-bottom: 14px;
+}
+
+.q-num {
+  font-family: 'Playfair Display', serif;
+  font-size: 13px;
+  color: var(--accent);
+  opacity: 0.45;
+  font-weight: 700;
+  min-width: 22px;
+  flex-shrink: 0;
+}
+
+.q-label { font-size: 17px; font-weight: 400; line-height: 1.45; color: var(--text); }
+.q-hint { font-size: 12px; color: var(--muted); margin: 4px 0 0 34px; letter-spacing: 0.03em; }
+
+/* ─── OPTIONS ─── */
+.options-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(155px,1fr));
+  gap: 7px;
+  margin-left: 34px;
+}
+.options-grid.cols-2 { grid-template-columns: 1fr 1fr; }
+.options-grid.cols-1 { grid-template-columns: 1fr; }
+
+.option-label { display: block; position: relative; cursor: pointer; }
+.option-label input { position: absolute; opacity: 0; width: 0; height: 0; }
+
+.option-box {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 11px 15px;
+  border-radius: var(--rs);
+  border: 1px solid var(--border);
+  background: transparent;
+  transition: all 0.17s;
+  font-size: 14px;
+  font-weight: 400;
+  color: var(--muted);
+  line-height: 1.35;
+}
+
+.option-box:hover { border-color: var(--border-h); color: var(--text); background: var(--accent-glow); }
+
+.option-label input:checked + .option-box {
+  border-color: rgba(232,213,163,0.38);
+  background: var(--accent-dim);
+  color: var(--accent);
+}
+
+.option-indicator {
+  width: 15px; height: 15px; min-width: 15px;
+  border-radius: 50%;
+  border: 1.5px solid var(--border-h);
+  display: flex; align-items: center; justify-content: center;
+  transition: all 0.15s; flex-shrink: 0;
+}
+
+.option-label input:checked + .option-box .option-indicator { border-color: var(--accent); background: var(--accent); }
+
+.option-indicator::after {
+  content: '';
+  width: 5px; height: 5px; border-radius: 50%;
+  background: var(--bg);
+  opacity: 0; transition: opacity 0.15s;
+}
+.option-label input:checked + .option-box .option-indicator::after { opacity: 1; }
+
+.option-label.checkbox .option-indicator { border-radius: 4px; }
+.option-label.checkbox input:checked + .option-box .option-indicator { background: var(--accent); border-color: var(--accent); border-radius: 4px; }
+.option-label.checkbox input:checked + .option-box .option-indicator::after {
+  width: 8px; height: 5px; border-radius: 0;
+  background: transparent;
+  border-left: 1.5px solid var(--bg);
+  border-bottom: 1.5px solid var(--bg);
+  transform: rotate(-45deg) translate(1px, -1px);
+  opacity: 1;
+}
+
+/* ─── VISUAL CARDS ─── */
+.visual-options {
+  display: grid;
+  grid-template-columns: repeat(3,1fr);
+  gap: 9px;
+  margin-left: 34px;
+}
+
+.visual-option { position: relative; cursor: pointer; }
+.visual-option input { position: absolute; opacity: 0; width: 0; height: 0; }
+
+.visual-card {
+  border-radius: var(--r);
+  border: 1px solid var(--border);
+  overflow: hidden;
+  transition: all 0.22s;
+  aspect-ratio: 4/5;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-end;
+  position: relative;
+  background: var(--surface);
+}
+
+.vc-bg {
+  position: absolute; inset: 0;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 44px; opacity: 0.45;
+}
+
+.vc-label {
+  position: relative; z-index: 1;
+  width: 100%;
+  padding: 10px 11px 13px;
+  font-size: 12px; font-weight: 500; color: var(--text);
+  background: linear-gradient(0deg, rgba(12,12,11,0.92) 0%, transparent 100%);
+  line-height: 1.3; letter-spacing: 0.02em;
+}
+
+.visual-option input:checked + .visual-card { border-color: rgba(232,213,163,0.45); }
+.visual-option input:checked + .visual-card .vc-label { color: var(--accent); }
+.visual-card:hover { transform: translateY(-3px); border-color: var(--border-h); }
+
+/* ─── STAR RATING ─── */
+.star-wrap { margin-left: 34px; }
+.star-rating { display: flex; gap: 6px; }
+.star-rating input { display: none; }
+.star-rating label {
+  font-size: 26px; cursor: pointer;
+  filter: grayscale(1) brightness(0.25);
+  transition: filter 0.12s, transform 0.12s;
+}
+.star-rating label:hover,
+.star-rating label.lit { filter: grayscale(0) brightness(1); transform: scale(1.12); }
+.star-desc { margin-top: 10px; font-size: 13px; color: var(--muted); min-height: 18px; letter-spacing: 0.02em; }
+
+/* ─── TEXTAREA ─── */
+.open-textarea {
+  width: calc(100% - 34px);
+  margin-left: 34px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--rs);
+  color: var(--text);
+  font-family: 'Outfit', sans-serif;
+  font-size: 15px;
+  padding: 15px 18px;
+  resize: vertical;
+  min-height: 100px;
+  outline: none;
+  transition: border-color 0.2s;
+  line-height: 1.65;
+}
+.open-textarea:focus { border-color: rgba(232,213,163,0.32); }
+.open-textarea::placeholder { color: var(--muted); opacity: 0.45; }
+
+/* ─── NAV BUTTONS ─── */
+.nav-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 52px;
+  gap: 12px;
+  padding-top: 28px;
+  border-top: 1px solid var(--border);
+}
+
+.btn-nav {
+  font-family: 'Outfit', sans-serif;
+  font-weight: 600;
+  font-size: 12px;
+  padding: 13px 28px;
+  border-radius: var(--rs);
+  cursor: pointer;
+  transition: all 0.2s;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+  border: none;
+}
+
+.btn-back { background: transparent; border: 1px solid var(--border); color: var(--muted); }
+.btn-back:hover { border-color: var(--border-h); color: var(--text); }
+
+.btn-next { background: var(--accent); color: var(--bg); flex: 1; max-width: 230px; }
+.btn-next:hover { opacity: 0.87; }
+.btn-next:active { transform: scale(0.98); }
+.btn-next:disabled { opacity: 0.25; cursor: not-allowed; transform: none; }
+
+/* ─── DIVIDER ─── */
+.q-divider { width: 100%; height: 1px; background: var(--border); margin: 30px 0; }
+
+/* ─── TOAST ─── */
+.toast {
+  position: fixed;
+  bottom: 28px; right: 28px;
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  border-radius: var(--rs);
+  padding: 14px 20px;
+  font-size: 14px;
+  z-index: 999;
+  opacity: 0;
+  transform: translateY(10px);
+  transition: all 0.3s;
+  max-width: 320px;
+  color: var(--text);
+}
+.toast.show { opacity: 1; transform: translateY(0); }
+.toast.ok { border-left: 3px solid var(--green); }
+.toast.err { border-left: 3px solid #E07070; }
+
+/* ─── SUCCESS ─── */
+#screen-success {
+  display: none;
+  min-height: 100vh;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  text-align: center;
+  padding: 80px 32px;
+  position: relative; z-index: 1;
+}
+
+.success-mark {
+  width: 68px; height: 68px;
+  border-radius: 50%;
+  border: 1.5px solid rgba(232,213,163,0.5);
+  display: flex; align-items: center; justify-content: center;
+  margin: 0 auto 32px;
+  font-size: 26px;
+  color: var(--accent);
+  animation: ring-in 0.6s cubic-bezier(0.175,0.885,0.32,1.275);
+}
+@keyframes ring-in {
+  0% { transform: scale(0.3); opacity: 0; }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+.success-title {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(38px,7vw,60px);
+  font-weight: 900;
+  margin-bottom: 16px;
+  letter-spacing: -0.01em;
+}
+.success-title em { font-style: italic; color: var(--accent); }
+.success-sub { color: var(--muted); font-size: 16px; max-width: 360px; margin: 0 auto 40px; line-height: 1.7; font-weight: 300; }
+
+
+</style>
+</head>
+<body>
+
+
+
+<div class="toast" id="toast"></div>
+
+<!-- ══════════ HERO ══════════ -->
+<div id="hero">
+  <div class="hero">
+    <div class="hero-eyebrow">
+      <div class="eyebrow-line"></div>
+      <span class="eyebrow-text">Investigación de usuarios · 2025</span>
+    </div>
+
+    <h1>¿A dónde<br><em>salimos?</em></h1>
+    <div class="hero-rule"></div>
+
+    <p class="hero-sub">Cuéntanos cómo eliges los lugares donde pasas el rato. Tus respuestas nos ayudarán a construir algo que de verdad valga la pena.</p>
+
+    <div class="hero-pills">
+      <span class="pill">13 preguntas</span>
+      <span class="pill">3–4 minutos</span>
+      <span class="pill">Anónima</span>
+    </div>
+
+    <button class="btn-start" onclick="startSurvey()">
+      Comenzar
+      <span class="btn-arrow">→</span>
+    </button>
+
+    <div class="hero-stat">
+      <div class="stat-item"><div class="stat-num">6</div><div class="stat-label">Secciones</div></div>
+      <div class="stat-item"><div class="stat-num">13</div><div class="stat-label">Preguntas</div></div>
+      <div class="stat-item"><div class="stat-num">~4'</div><div class="stat-label">Duración estimada</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════ SURVEY ══════════ -->
+<div id="survey">
+  <div class="progress-bar-wrap">
+    <div class="progress-bar-fill" id="progress-fill" style="width:0%"></div>
+  </div>
+  <div class="nav-top">
+    <span class="nav-brand">¿A dónde salimos?</span>
+    <span class="nav-progress-text" id="progress-info">1 / 6</span>
+  </div>
+
+  <!-- SCREEN 1 -->
+  <div class="section-screen active" id="screen-1">
+    <div class="section-eyebrow">
+      <span class="section-num">01 / 06</span><div class="section-dot"></div><span class="section-name">Perfil</span>
+    </div>
+    <h2 class="section-title">Cuéntanos<br>sobre <em>ti</em></h2>
+    <p class="section-desc">Dos preguntas rápidas para entender de dónde vienes.</p>
+
+    <div class="question-block">
+      <div class="question-header"><span class="q-num">01</span><p class="q-label">¿En qué rango de edad te encuentras?</p></div>
+      <div class="options-grid cols-2">
+        <label class="option-label"><input type="radio" name="q1" value="menos_18"><span class="option-box"><span class="option-indicator"></span>Menos de 18</span></label>
+        <label class="option-label"><input type="radio" name="q1" value="18_22"><span class="option-box"><span class="option-indicator"></span>18 – 22 años</span></label>
+        <label class="option-label"><input type="radio" name="q1" value="23_27"><span class="option-box"><span class="option-indicator"></span>23 – 27 años</span></label>
+        <label class="option-label"><input type="radio" name="q1" value="28_35"><span class="option-box"><span class="option-indicator"></span>28 – 35 años</span></label>
+        <label class="option-label"><input type="radio" name="q1" value="36_45"><span class="option-box"><span class="option-indicator"></span>36 – 45 años</span></label>
+        <label class="option-label"><input type="radio" name="q1" value="46_mas"><span class="option-box"><span class="option-indicator"></span>46 años o más</span></label>
+      </div>
+    </div>
+
+    <div class="q-divider"></div>
+
+    <div class="question-block">
+      <div class="question-header"><span class="q-num">02</span><p class="q-label">¿Con qué frecuencia sueles salir a cafeterías, bares o restaurantes?</p></div>
+      <div class="options-grid cols-1">
+        <label class="option-label"><input type="radio" name="q2" value="varias_semana"><span class="option-box"><span class="option-indicator"></span>Varias veces por semana</span></label>
+        <label class="option-label"><input type="radio" name="q2" value="una_semana"><span class="option-box"><span class="option-indicator"></span>Una vez por semana</span></label>
+        <label class="option-label"><input type="radio" name="q2" value="1_2_mes"><span class="option-box"><span class="option-indicator"></span>1 o 2 veces al mes</span></label>
+        <label class="option-label"><input type="radio" name="q2" value="rara_vez"><span class="option-box"><span class="option-indicator"></span>Rara vez</span></label>
+        <label class="option-label"><input type="radio" name="q2" value="casi_nunca"><span class="option-box"><span class="option-indicator"></span>Casi nunca</span></label>
+      </div>
+    </div>
+
+    <div class="q-divider"></div>
+
+    <div class="question-block">
+      <div class="question-header"><span class="q-num">03</span><p class="q-label">¿Con quién sueles salir más frecuentemente?</p></div>
+      <p class="q-hint">Puedes elegir varios</p>
+      <div class="options-grid" style="margin-top:12px">
+        <label class="option-label checkbox"><input type="checkbox" name="q3" value="pareja"><span class="option-box"><span class="option-indicator"></span>Pareja</span></label>
+        <label class="option-label checkbox"><input type="checkbox" name="q3" value="amigos"><span class="option-box"><span class="option-indicator"></span>Amigos</span></label>
+        <label class="option-label checkbox"><input type="checkbox" name="q3" value="familia"><span class="option-box"><span class="option-indicator"></span>Familia</span></label>
+        <label class="option-label checkbox"><input type="checkbox" name="q3" value="companeros"><span class="option-box"><span class="option-indicator"></span>Compañeros</span></label>
+        <label class="option-label checkbox"><input type="checkbox" name="q3" value="solo"><span class="option-box"><span class="option-indicator"></span>Solo / Sola</span></label>
+      </div>
+    </div>
+
+    <div class="nav-row">
+      <div></div>
+      <button class="btn-nav btn-next" onclick="goTo(2)">Continuar →</button>
+    </div>
+  </div>
+
+  <!-- SCREEN 2 -->
+  <div class="section-screen" id="screen-2">
+    <div class="section-eyebrow">
+      <span class="section-num">02 / 06</span><div class="section-dot"></div><span class="section-name">Descubrimiento</span>
+    </div>
+    <h2 class="section-title">¿Cómo encuentras<br><em>nuevos lugares?</em></h2>
+    <p class="section-desc">Queremos entender dónde vive la información que usas para decidir.</p>
+
+    <div class="question-block">
+      <div class="question-header"><span class="q-num">04</span><p class="q-label">¿Cómo descubres normalmente nuevos lugares para salir?</p></div>
+      <p class="q-hint">Puedes elegir varios</p>
+      <div class="options-grid" style="margin-top:12px">
+        <label class="option-label checkbox"><input type="checkbox" name="q4" value="instagram"><span class="option-box"><span class="option-indicator"></span>Instagram</span></label>
+        <label class="option-label checkbox"><input type="checkbox" name="q4" value="tiktok"><span class="option-box"><span class="option-indicator"></span>TikTok</span></label>
+        <label class="option-label checkbox"><input type="checkbox" name="q4" value="amigos"><span class="option-box"><span class="option-indicator"></span>Amigos / conocidos</span></label>
+        <label class="option-label checkbox"><input type="checkbox" name="q4" value="google_maps"><span class="option-box"><span class="option-indicator"></span>Google Maps</span></label>
+        <label class="option-label checkbox"><input type="checkbox" name="q4" value="google"><span class="option-box"><span class="option-indicator"></span>Búsquedas en Google</span></label>
+        <label class="option-label checkbox"><input type="checkbox" name="q4" value="caminando"><span class="option-box"><span class="option-indicator"></span>Pasando por el lugar</span></label>
+        <label class="option-label checkbox"><input type="checkbox" name="q4" value="resenas"><span class="option-box"><span class="option-indicator"></span>Reseñas en internet</span></label>
+        <label class="option-label checkbox"><input type="checkbox" name="q4" value="otro"><span class="option-box"><span class="option-indicator"></span>Otro</span></label>
+      </div>
+    </div>
+
+    <div class="q-divider"></div>
+
+    <div class="question-block">
+      <div class="question-header"><span class="q-num">05</span><p class="q-label">¿Qué tan importante es conocer opiniones antes de visitar un lugar nuevo?</p></div>
+      <div class="star-wrap">
+        <div class="star-rating" id="star-q5">
+          <input type="radio" name="q5" id="s1" value="1"><label for="s1">⭐</label>
+          <input type="radio" name="q5" id="s2" value="2"><label for="s2">⭐</label>
+          <input type="radio" name="q5" id="s3" value="3"><label for="s3">⭐</label>
+          <input type="radio" name="q5" id="s4" value="4"><label for="s4">⭐</label>
+          <input type="radio" name="q5" id="s5" value="5"><label for="s5">⭐</label>
+        </div>
+        <div class="star-desc" id="star-desc-q5">Selecciona una valoración</div>
+      </div>
+    </div>
+
+    <div class="nav-row">
+      <button class="btn-nav btn-back" onclick="goTo(1)">← Atrás</button>
+      <button class="btn-nav btn-next" onclick="goTo(3)">Continuar →</button>
+    </div>
+  </div>
+
+  <!-- SCREEN 3 -->
+  <div class="section-screen" id="screen-3">
+    <div class="section-eyebrow">
+      <span class="section-num">03 / 06</span><div class="section-dot"></div><span class="section-name">Ambiente</span>
+    </div>
+    <h2 class="section-title">¿Qué tipo de<br><em>lugar te gusta?</em></h2>
+    <p class="section-desc">Selecciona los ambientes que más te representan.</p>
+
+    <div class="question-block">
+      <div class="question-header"><span class="q-num">06</span><p class="q-label">¿Qué ambiente prefieres cuando eliges un lugar?</p></div>
+      <p class="q-hint">Puedes elegir varios</p>
+      <div class="visual-options" style="margin-top:14px">
+        <label class="visual-option"><input type="checkbox" name="q6" value="tranquilo">
+          <div class="visual-card" style="background:linear-gradient(160deg,#141820,#1a2030)"><div class="vc-bg">☕</div><div class="vc-label">Tranquilo y relajado</div></div>
+        </label>
+        <label class="visual-option"><input type="checkbox" name="q6" value="social">
+          <div class="visual-card" style="background:linear-gradient(160deg,#1a1228,#1e183a)"><div class="vc-bg">🥂</div><div class="vc-label">Social y animado</div></div>
+        </label>
+        <label class="visual-option"><input type="checkbox" name="q6" value="romantico">
+          <div class="visual-card" style="background:linear-gradient(160deg,#1e1018,#281420)"><div class="vc-bg">🕯️</div><div class="vc-label">Romántico</div></div>
+        </label>
+        <label class="visual-option"><input type="checkbox" name="q6" value="creativo">
+          <div class="visual-card" style="background:linear-gradient(160deg,#181416,#231820)"><div class="vc-bg">🎨</div><div class="vc-label">Creativo / artístico</div></div>
+        </label>
+        <label class="visual-option"><input type="checkbox" name="q6" value="moderno">
+          <div class="visual-card" style="background:linear-gradient(160deg,#141414,#202020)"><div class="vc-bg">✦</div><div class="vc-label">Moderno o elegante</div></div>
+        </label>
+        <label class="visual-option"><input type="checkbox" name="q6" value="acogedor">
+          <div class="visual-card" style="background:linear-gradient(160deg,#1c1610,#241c14)"><div class="vc-bg">🪵</div><div class="vc-label">Acogedor o pequeño</div></div>
+        </label>
+      </div>
+    </div>
+
+    <div class="q-divider"></div>
+
+    <div class="question-block">
+      <div class="question-header"><span class="q-num">07</span><p class="q-label">¿Qué factores influyen más en tu decisión al elegir un lugar?</p></div>
+      <p class="q-hint">Puedes elegir varios</p>
+      <div class="options-grid" style="margin-top:12px">
+        <label class="option-label checkbox"><input type="checkbox" name="q7" value="ambiente"><span class="option-box"><span class="option-indicator"></span>Ambiente</span></label>
+        <label class="option-label checkbox"><input type="checkbox" name="q7" value="calidad"><span class="option-box"><span class="option-indicator"></span>Calidad comida / bebidas</span></label>
+        <label class="option-label checkbox"><input type="checkbox" name="q7" value="precio"><span class="option-box"><span class="option-indicator"></span>Precio</span></label>
+        <label class="option-label checkbox"><input type="checkbox" name="q7" value="ubicacion"><span class="option-box"><span class="option-indicator"></span>Ubicación</span></label>
+        <label class="option-label checkbox"><input type="checkbox" name="q7" value="ruido"><span class="option-box"><span class="option-indicator"></span>Nivel de ruido</span></label>
+        <label class="option-label checkbox"><input type="checkbox" name="q7" value="recomendaciones"><span class="option-box"><span class="option-indicator"></span>Recomendaciones</span></label>
+        <label class="option-label checkbox"><input type="checkbox" name="q7" value="estetica"><span class="option-box"><span class="option-indicator"></span>Estética / diseño</span></label>
+      </div>
+    </div>
+
+    <div class="nav-row">
+      <button class="btn-nav btn-back" onclick="goTo(2)">← Atrás</button>
+      <button class="btn-nav btn-next" onclick="goTo(4)">Continuar →</button>
+    </div>
+  </div>
+
+  <!-- SCREEN 4 -->
+  <div class="section-screen" id="screen-4">
+    <div class="section-eyebrow">
+      <span class="section-num">04 / 06</span><div class="section-dot"></div><span class="section-name">Información</span>
+    </div>
+    <h2 class="section-title">¿Qué información<br><em>necesitas?</em></h2>
+    <p class="section-desc">Esto nos ayuda a definir qué mostrar antes de que visites un lugar.</p>
+
+    <div class="question-block">
+      <div class="question-header"><span class="q-num">08</span><p class="q-label">¿Qué te gustaría conocer antes de visitar un lugar nuevo?</p></div>
+      <p class="q-hint">Puedes elegir varios</p>
+      <div class="options-grid" style="margin-top:12px">
+        <label class="option-label checkbox"><input type="checkbox" name="q8" value="fotos"><span class="option-box"><span class="option-indicator"></span>Fotografías</span></label>
+        <label class="option-label checkbox"><input type="checkbox" name="q8" value="menu"><span class="option-box"><span class="option-indicator"></span>Menú / carta</span></label>
+        <label class="option-label checkbox"><input type="checkbox" name="q8" value="precios"><span class="option-box"><span class="option-indicator"></span>Rango de precios</span></label>
+        <label class="option-label checkbox"><input type="checkbox" name="q8" value="ruido_nivel"><span class="option-box"><span class="option-indicator"></span>Nivel de ruido</span></label>
+        <label class="option-label checkbox"><input type="checkbox" name="q8" value="horarios"><span class="option-box"><span class="option-indicator"></span>Horarios</span></label>
+        <label class="option-label checkbox"><input type="checkbox" name="q8" value="ubicacion_exacta"><span class="option-box"><span class="option-indicator"></span>Ubicación exacta</span></label>
+        <label class="option-label checkbox"><input type="checkbox" name="q8" value="afluencia"><span class="option-box"><span class="option-indicator"></span>Qué tan lleno suele estar</span></label>
+        <label class="option-label checkbox"><input type="checkbox" name="q8" value="musica"><span class="option-box"><span class="option-indicator"></span>Tipo de música</span></label>
+        <label class="option-label checkbox"><input type="checkbox" name="q8" value="opiniones"><span class="option-box"><span class="option-indicator"></span>Opiniones de otros</span></label>
+      </div>
+    </div>
+
+    <div class="q-divider"></div>
+
+    <div class="question-block">
+      <div class="question-header"><span class="q-num">09</span><p class="q-label">¿Qué características especiales te importan al buscar un lugar?</p></div>
+      <p class="q-hint">Puedes elegir varios</p>
+      <div class="options-grid" style="margin-top:12px">
+        <label class="option-label checkbox"><input type="checkbox" name="q9" value="pet_friendly"><span class="option-box"><span class="option-indicator"></span>Pet friendly</span></label>
+        <label class="option-label checkbox"><input type="checkbox" name="q9" value="aire_libre"><span class="option-box"><span class="option-indicator"></span>Espacios al aire libre</span></label>
+        <label class="option-label checkbox"><input type="checkbox" name="q9" value="terraza"><span class="option-box"><span class="option-indicator"></span>Terraza</span></label>
+        <label class="option-label checkbox"><input type="checkbox" name="q9" value="citas"><span class="option-box"><span class="option-indicator"></span>Ideal para citas</span></label>
+        <label class="option-label checkbox"><input type="checkbox" name="q9" value="estudiar"><span class="option-box"><span class="option-indicator"></span>Estudiar / trabajar</span></label>
+        <label class="option-label checkbox"><input type="checkbox" name="q9" value="poco_concurrido"><span class="option-box"><span class="option-indicator"></span>Poco concurrido</span></label>
+        <label class="option-label checkbox"><input type="checkbox" name="q9" value="buena_musica"><span class="option-box"><span class="option-indicator"></span>Buena música</span></label>
+        <label class="option-label checkbox"><input type="checkbox" name="q9" value="cafe_postres"><span class="option-box"><span class="option-indicator"></span>Buen café o postres</span></label>
+        <label class="option-label checkbox"><input type="checkbox" name="q9" value="cocteles"><span class="option-box"><span class="option-indicator"></span>Buena coctelería</span></label>
+      </div>
+    </div>
+
+    <div class="nav-row">
+      <button class="btn-nav btn-back" onclick="goTo(3)">← Atrás</button>
+      <button class="btn-nav btn-next" onclick="goTo(5)">Continuar →</button>
+    </div>
+  </div>
+
+  <!-- SCREEN 5 -->
+  <div class="section-screen" id="screen-5">
+    <div class="section-eyebrow">
+      <span class="section-num">05 / 06</span><div class="section-dot"></div><span class="section-name">Estado de ánimo</span>
+    </div>
+    <h2 class="section-title">¿Cuándo decides<br><em>salir?</em></h2>
+    <p class="section-desc">Queremos entender el momento detrás de la decisión, no solo el destino.</p>
+
+    <div class="question-block">
+      <div class="question-header"><span class="q-num">10</span><p class="q-label">¿En qué situaciones buscarías un lugar para salir?</p></div>
+      <p class="q-hint">Puedes elegir varios</p>
+      <div class="options-grid cols-2" style="margin-top:12px">
+        <label class="option-label checkbox"><input type="checkbox" name="q10" value="cita"><span class="option-box"><span class="option-indicator"></span>Tener una cita</span></label>
+        <label class="option-label checkbox"><input type="checkbox" name="q10" value="relajarse"><span class="option-box"><span class="option-indicator"></span>Relajarme / desconectarme</span></label>
+        <label class="option-label checkbox"><input type="checkbox" name="q10" value="amigos"><span class="option-box"><span class="option-indicator"></span>Salir con amigos</span></label>
+        <label class="option-label checkbox"><input type="checkbox" name="q10" value="estudiar_trab"><span class="option-box"><span class="option-indicator"></span>Estudiar / trabajar</span></label>
+        <label class="option-label checkbox"><input type="checkbox" name="q10" value="celebrar"><span class="option-box"><span class="option-indicator"></span>Celebrar algo</span></label>
+        <label class="option-label checkbox"><input type="checkbox" name="q10" value="familia"><span class="option-box"><span class="option-indicator"></span>Tiempo con familia</span></label>
+      </div>
+    </div>
+
+    <div class="q-divider"></div>
+
+    <div class="question-block">
+      <div class="question-header"><span class="q-num">11</span><p class="q-label">Cuando te sientes estresado/a y necesitas desconectarte, ¿qué tipo de lugar preferirías?</p></div>
+      <div class="options-grid cols-1">
+        <label class="option-label"><input type="radio" name="q11" value="cafe_postres"><span class="option-box"><span class="option-indicator"></span>Un lugar tranquilo con café o postres</span></label>
+        <label class="option-label"><input type="radio" name="q11" value="bar_suave"><span class="option-box"><span class="option-indicator"></span>Un bar relajado con música suave</span></label>
+        <label class="option-label"><input type="radio" name="q11" value="aire_libre"><span class="option-box"><span class="option-indicator"></span>Un lugar al aire libre</span></label>
+        <label class="option-label"><input type="radio" name="q11" value="poco_concurrido"><span class="option-box"><span class="option-indicator"></span>Un sitio poco concurrido</span></label>
+        <label class="option-label"><input type="radio" name="q11" value="no_busco"><span class="option-box"><span class="option-indicator"></span>No suelo buscar lugares en esos momentos</span></label>
+      </div>
+    </div>
+
+    <div class="nav-row">
+      <button class="btn-nav btn-back" onclick="goTo(4)">← Atrás</button>
+      <button class="btn-nav btn-next" onclick="goTo(6)">Continuar →</button>
+    </div>
+  </div>
+
+  <!-- SCREEN 6 -->
+  <div class="section-screen" id="screen-6">
+    <div class="section-eyebrow">
+      <span class="section-num">06 / 06</span><div class="section-dot"></div><span class="section-name">Tu opinión</span>
+    </div>
+    <h2 class="section-title">La parte<br><em>más valiosa</em></h2>
+    <p class="section-desc">Cuéntanos con tus propias palabras. Esto nos ayuda más que cualquier lista de opciones.</p>
+
+    <div class="question-block">
+      <div class="question-header"><span class="q-num">12</span><p class="q-label">¿Qué te gustaría que existiera para facilitar descubrir nuevos lugares para salir?</p></div>
+      <textarea class="open-textarea" name="q12" id="q12" placeholder="Cualquier idea cuenta, aunque sea muy básica..."></textarea>
+    </div>
+
+    <div class="q-divider"></div>
+
+    <div class="question-block">
+      <div class="question-header"><span class="q-num">13</span><p class="q-label">¿Hay algo que te frustre al buscar lugares para salir actualmente?</p></div>
+      <textarea class="open-textarea" name="q13" id="q13" placeholder="Sé tan honesto/a como quieras..."></textarea>
+    </div>
+
+    <div class="nav-row">
+      <button class="btn-nav btn-back" onclick="goTo(5)">← Atrás</button>
+      <button class="btn-nav btn-next" id="btn-submit" onclick="submitSurvey()">Enviar respuestas →</button>
+    </div>
+  </div>
+</div>
+
+<!-- SUCCESS -->
+<div id="screen-success">
+  <div class="success-mark">✓</div>
+  <h2 class="success-title"><em>Gracias</em> por<br>tu tiempo</h2>
+  <p class="success-sub">Tus respuestas ya están guardadas. Esto nos ayudará a construir algo que de verdad valga la pena.</p>
+  <button class="btn-nav btn-next" onclick="location.reload()" style="margin:0 auto;max-width:200px;">Volver al inicio</button>
+</div>
+
+<script>
+// ── Credenciales Airtable ─────────────────────────────────────
+const AIRTABLE_API_KEY = 'pat7vxNBYlybUHZMu.e85f123072a1c7b3f3c41a101411ade773d75e46e6fb0094ff6127fa995bad30';
+const AIRTABLE_BASE_ID = 'appCMPVwSk0OGTbi4';
+const AIRTABLE_TABLE   = 'Encuesta';
+// ──────────────────────────────────────────────────────────────
+
+let currentScreen = 1;
+const totalScreens = 6;
+
+function startSurvey() {
+  document.getElementById('hero').style.display = 'none';
+  document.getElementById('survey').style.display = 'block';
+  updateProgress(1);
+}
+function goTo(num) {
+  document.getElementById('screen-' + currentScreen).classList.remove('active');
+  currentScreen = num;
+  document.getElementById('screen-' + num).classList.add('active');
+  updateProgress(num);
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+function updateProgress(num) {
+  const pct = Math.round(((num - 1) / totalScreens) * 100);
+  document.getElementById('progress-fill').style.width = pct + '%';
+  document.getElementById('progress-info').textContent = num + ' / ' + totalScreens;
+}
+
+const starLabels = ['','Nada importante','Poco importante','Moderadamente importante','Importante','Muy importante'];
+document.querySelectorAll('#star-q5 label').forEach((label, i) => {
+  label.addEventListener('mouseenter', () => highlightStars(i + 1));
+  label.addEventListener('mouseleave', () => highlightStars(getSelectedStar()));
+  label.addEventListener('click', () => { document.getElementById('star-desc-q5').textContent = starLabels[i + 1]; });
+});
+function highlightStars(val) {
+  document.querySelectorAll('#star-q5 label').forEach((l, i) => l.classList.toggle('lit', i < val));
+}
+function getSelectedStar() {
+  const sel = document.querySelector('input[name="q5"]:checked');
+  return sel ? parseInt(sel.value) : 0;
+}
+
+function collectData() {
+  const data = {};
+  ['q1','q2','q5','q11'].forEach(name => {
+    const el = document.querySelector(`input[name="${name}"]:checked`);
+    data[name] = el ? el.value : null;
+  });
+  ['q3','q4','q6','q7','q8','q9','q10'].forEach(name => {
+    const checked = document.querySelectorAll(`input[name="${name}"]:checked`);
+    data[name] = Array.from(checked).map(el => el.value);
+  });
+  data['q12'] = document.getElementById('q12').value.trim();
+  data['q13'] = document.getElementById('q13').value.trim();
+  data['submitted_at'] = new Date().toISOString();
+  return data;
+}
+
+async function submitSurvey() {
+  const btn = document.getElementById('btn-submit');
+  btn.disabled = true;
+  btn.textContent = 'Enviando...';
+  const data = collectData();
+
+  try {
+    const response = await fetch(`https://api.airtable.com/v0/${AIRTABLE_BASE_ID}/${AIRTABLE_TABLE}`, {
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${AIRTABLE_API_KEY}`,
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        fields: {
+          q1_edad:                data.q1,
+          q2_frecuencia:          data.q2,
+          q3_compania:            JSON.stringify(data.q3),
+          q4_fuentes:             JSON.stringify(data.q4),
+          q5_importancia_resenas: data.q5 ? parseInt(data.q5) : null,
+          q6_ambiente:            JSON.stringify(data.q6),
+          q7_factores:            JSON.stringify(data.q7),
+          q8_info_previa:         JSON.stringify(data.q8),
+          q9_caracteristicas:     JSON.stringify(data.q9),
+          q10_situaciones:        JSON.stringify(data.q10),
+          q11_estres:             data.q11,
+          q12_idea_libre:         data.q12,
+          q13_frustracion:        data.q13,
+          submitted_at:           data.submitted_at
+        }
+      })
+    });
+    if (response.ok) { showSuccess(); }
+    else { throw new Error('HTTP ' + response.status); }
+  } catch (err) {
+    console.error(err);
+    showToast('Error al guardar. Intenta de nuevo.', 'err');
+    btn.disabled = false;
+    btn.textContent = 'Enviar respuestas →';
+  }
+}
+
+function showSuccess() {
+  document.getElementById('survey').style.display = 'none';
+  document.getElementById('screen-success').style.display = 'flex';
+}
+function showToast(msg, type) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.className = 'toast ' + type + ' show';
+  setTimeout(() => t.classList.remove('show'), 4000);
+}
+</script>
+</body>
+</html>
