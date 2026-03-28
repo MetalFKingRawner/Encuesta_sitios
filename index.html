@@ -828,7 +828,7 @@ body::after {
 
 <script>
 // ── Credenciales Airtable ─────────────────────────────────────
-const AIRTABLE_API_KEY = 'pat7vxNBYlybUHZMu';
+const AIRTABLE_API_KEY = 'pat7vxNBYlybUHZMu.167bb3744f85be31a133929ab8d30a44c0b7b380b5d66fad58dca3aec0ffa872';
 const AIRTABLE_BASE_ID = 'appCMPVwSk0OGTbi4';
 const AIRTABLE_TABLE   = 'Encuesta';
 // ──────────────────────────────────────────────────────────────
@@ -891,7 +891,7 @@ async function submitSurvey() {
   const data = collectData();
 
   try {
-    const response = await fetch(`https://api.airtable.com/v0/{AIRTABLE_BASE_ID}/${AIRTABLE_TABLE}`, {
+    const response = await fetch(`https://api.airtable.com/{AIRTABLE_BASE_ID}/${AIRTABLE_TABLE}`, {
       method: 'POST',
       headers: {
         'Authorization': `Bearer ${AIRTABLE_API_KEY}`,
