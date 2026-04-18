@@ -48,7 +48,6 @@ body::after {
   z-index: 0;
 }
 
-/* ─── HERO ─── */
 #hero { position: relative; z-index: 1; }
 
 .hero {
@@ -182,7 +181,6 @@ body::after {
 }
 .stat-label { font-size: 12px; color: var(--muted); margin-top: 5px; letter-spacing: 0.04em; }
 
-/* ─── PROGRESS ─── */
 .progress-bar-wrap {
   position: fixed;
   top: 0; left: 0; right: 0;
@@ -221,7 +219,6 @@ body::after {
 
 .nav-progress-text { font-size: 12px; color: var(--muted); letter-spacing: 0.06em; }
 
-/* ─── SURVEY ─── */
 #survey { display: none; position: relative; z-index: 1; }
 
 .section-screen {
@@ -275,7 +272,6 @@ body::after {
   transition: border-color 0.3s;
 }
 
-/* ─── QUESTION BLOCK ─── */
 .question-block { margin-bottom: 38px; }
 
 .question-header {
@@ -298,7 +294,6 @@ body::after {
 .q-label { font-size: 17px; font-weight: 400; line-height: 1.45; color: var(--text); }
 .q-hint { font-size: 12px; color: var(--muted); margin: 4px 0 0 34px; letter-spacing: 0.03em; }
 
-/* ─── OPTIONS ─── */
 .options-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(155px,1fr));
@@ -341,7 +336,6 @@ body::after {
   transform: translateY(-1px);
 }
 
-/* — pulse flash on check — */
 @keyframes option-pop {
   0%   { transform: scale(1) translateY(-1px); }
   35%  { transform: scale(1.025) translateY(-2px); }
@@ -389,7 +383,6 @@ body::after {
   opacity: 1;
 }
 
-/* ─── VISUAL CARDS — Q6 ─── */
 .visual-options {
   display: grid;
   grid-template-columns: repeat(3,1fr);
@@ -416,14 +409,12 @@ body::after {
   background: var(--surface);
 }
 
-/* Hover lift */
 .visual-card:hover {
   transform: translateY(-5px) scale(1.015);
   border-color: var(--border-h);
   box-shadow: 0 12px 32px rgba(0,0,0,0.45);
 }
 
-/* Selected state — strong glow + border + lift */
 .visual-option input:checked + .visual-card {
   border-color: var(--accent);
   box-shadow:
@@ -440,7 +431,6 @@ body::after {
   100% { transform: translateY(-6px) scale(1.03); }
 }
 
-/* Golden tint overlay on selection */
 .visual-card::before {
   content: '';
   position: absolute;
@@ -453,7 +443,6 @@ body::after {
 }
 .visual-option input:checked + .visual-card::before { opacity: 1; }
 
-/* Checkmark badge */
 .visual-card::after {
   content: '✓';
   position: absolute;
@@ -487,7 +476,6 @@ body::after {
   z-index: 0;
 }
 
-/* Emoji pops on selection */
 .visual-option input:checked + .visual-card .vc-bg {
   opacity: 0.75;
   transform: scale(1.15) translateY(-4px);
@@ -508,7 +496,6 @@ body::after {
   letter-spacing: 0.035em;
 }
 
-/* ─── STAR RATING ─── */
 .star-wrap { margin-left: 34px; }
 .star-rating { display: flex; gap: 6px; }
 .star-rating input { display: none; }
@@ -525,7 +512,6 @@ body::after {
 }
 .star-desc { margin-top: 10px; font-size: 13px; color: var(--muted); min-height: 18px; letter-spacing: 0.02em; transition: color 0.2s; }
 
-/* ─── TEXTAREA ─── */
 .open-textarea {
   width: calc(100% - 34px);
   margin-left: 34px;
@@ -548,7 +534,6 @@ body::after {
 }
 .open-textarea::placeholder { color: var(--muted); opacity: 0.45; }
 
-/* ─── NAV BUTTONS ─── */
 .nav-row {
   display: flex;
   align-items: center;
@@ -594,10 +579,8 @@ body::after {
 .btn-next:active { transform: scale(0.97) translateY(0); opacity: 1; }
 .btn-next:disabled { opacity: 0.22; cursor: not-allowed; transform: none; box-shadow: none; }
 
-/* ─── DIVIDER ─── */
 .q-divider { width: 100%; height: 1px; background: var(--border); margin: 30px 0; }
 
-/* ─── TOAST ─── */
 .toast {
   position: fixed;
   bottom: 28px; right: 28px;
@@ -617,7 +600,6 @@ body::after {
 .toast.ok { border-left: 3px solid var(--green); }
 .toast.err { border-left: 3px solid #E07070; }
 
-/* ─── SUCCESS ─── */
 #screen-success {
   display: none;
   min-height: 100vh;
@@ -664,7 +646,6 @@ body::after {
   animation: fade-up 0.6s 0.45s ease both;
 }
 
-/* ─── KEYFRAMES ─── */
 @keyframes fade-up {
   from { opacity: 0; transform: translateY(16px); }
   to   { opacity: 1; transform: translateY(0); }
@@ -677,7 +658,6 @@ body::after {
 
 <div class="toast" id="toast"></div>
 
-<!-- ══════════ HERO ══════════ -->
 <div id="hero">
   <div class="hero">
     <div class="hero-eyebrow">
@@ -709,7 +689,6 @@ body::after {
   </div>
 </div>
 
-<!-- ══════════ SURVEY ══════════ -->
 <div id="survey">
   <div class="progress-bar-wrap">
     <div class="progress-bar-fill" id="progress-fill" style="width:0%"></div>
@@ -719,7 +698,6 @@ body::after {
     <span class="nav-progress-text" id="progress-info">1 / 6</span>
   </div>
 
-  <!-- SCREEN 1 -->
   <div class="section-screen active" id="screen-1">
     <div class="section-eyebrow">
       <span class="section-num">01 / 06</span><div class="section-dot"></div><span class="section-name">Perfil</span>
@@ -772,7 +750,6 @@ body::after {
     </div>
   </div>
 
-  <!-- SCREEN 2 -->
   <div class="section-screen" id="screen-2">
     <div class="section-eyebrow">
       <span class="section-num">02 / 06</span><div class="section-dot"></div><span class="section-name">Descubrimiento</span>
@@ -817,7 +794,6 @@ body::after {
     </div>
   </div>
 
-  <!-- SCREEN 3 -->
   <div class="section-screen" id="screen-3">
     <div class="section-eyebrow">
       <span class="section-num">03 / 06</span><div class="section-dot"></div><span class="section-name">Ambiente</span>
@@ -872,7 +848,6 @@ body::after {
     </div>
   </div>
 
-  <!-- SCREEN 4 -->
   <div class="section-screen" id="screen-4">
     <div class="section-eyebrow">
       <span class="section-num">04 / 06</span><div class="section-dot"></div><span class="section-name">Información</span>
@@ -920,7 +895,6 @@ body::after {
     </div>
   </div>
 
-  <!-- SCREEN 5 -->
   <div class="section-screen" id="screen-5">
     <div class="section-eyebrow">
       <span class="section-num">05 / 06</span><div class="section-dot"></div><span class="section-name">Estado de ánimo</span>
@@ -960,7 +934,6 @@ body::after {
     </div>
   </div>
 
-  <!-- SCREEN 6 -->
   <div class="section-screen" id="screen-6">
     <div class="section-eyebrow">
       <span class="section-num">06 / 06</span><div class="section-dot"></div><span class="section-name">Tu opinión</span>
@@ -987,7 +960,6 @@ body::after {
   </div>
 </div>
 
-<!-- SUCCESS -->
 <div id="screen-success">
   <div class="success-mark">✓</div>
   <h2 class="success-title"><em>Gracias</em> por<br>tu tiempo</h2>
@@ -996,11 +968,9 @@ body::after {
 </div>
 
 <script>
-// ── Credenciales Airtable ─────────────────────────────────────
-const AIRTABLE_API_KEY = 'pat7vxNBYlybUHZMu.167bb3744f85be31a133929ab8d30a44c0b7b380b5d66fad58dca3aec0ffa872'; // deja el que ya tienes
+const AIRTABLE_API_KEY = 'pat7vxNBYlybUHZMu.167bb3744f85be31a133929ab8d30a44c0b7b380b5d66fad58dca3aec0ffa872';
 const AIRTABLE_BASE_ID = 'appCMPVwSk0OGTbi4';
-const AIRTABLE_TABLE   = 'tbljqSvR5MPrIqOVi'; // mejor aún si usas el table ID tipo tblxxxx
-// ──────────────────────────────────────────────────────────────
+const AIRTABLE_TABLE   = 'tbljqSvR5MPrIqOVi'; 
 
 let currentScreen = 1;
 const totalScreens = 6;
@@ -1083,7 +1053,6 @@ async function submitSurvey() {
       q1_edad: data.q1,
       q2_frecuencia: data.q2,
 
-      // Estos campos funcionan mejor como "Multiple select" en Airtable
       q3_compania: data.q3,
       q4_fuentes: data.q4,
       q6_ambiente: data.q6,
